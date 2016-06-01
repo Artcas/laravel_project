@@ -1,0 +1,177 @@
+body{
+	margin:0px;
+}
+
+.background{
+
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+}
+
+.form-control{
+	margin-top: 10px;
+}
+
+.reg_area{
+	position: relative;
+	margin: 0px auto;
+	width: 40%;
+	margin-top: 15px;
+	padding: 10px;
+	text-align: center;
+	padding-bottom: 40px;
+}
+
+h1{
+	text-align: center;
+}
+
+h2{
+	font-size: 20px;
+	font-style: italic;
+	font-weight: bold;
+	text-align: center;
+	margin:0px;
+}
+
+.aceptit{
+	position: absolute;
+	right: 20px;
+	bottom: 10px;
+}
+
+.header{
+	width: 100%;
+	height: 40px;
+	border-bottom: 1px solid black;
+	
+}
+
+.name_area{
+	font-size: 16px;
+	color: gray;
+	text-align: center;
+}
+
+.logout{
+	position: absolute;
+	right:30px;
+	top: 40px; 
+}
+
+.cont_area{
+	margin-top: 30px;
+}
+
+
+.add_posts{
+	margin-top: 10px;
+    width: 161px;
+}
+
+.posts_div{
+	width: 300px;
+	outline: 1px solid black;
+	text-align:center;
+}
+
+.visible{
+	display: none;
+}
+.imgs_area{
+	outline: 1px solid black;
+	padding: 20px;
+	padding-top: 0px;
+	overflow: hidden;
+}
+.head_name{
+	text-align: left;
+	font-size: 18px;
+	font-style: italic;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px solid black;
+	margin-bottom: 20px;
+}
+
+.imgs{
+	position: relative;
+	width: 300px;
+	margin-left: 20px;
+	float: left;
+}
+
+.shadow{
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	height: 0px;
+	background: rgba(0,0,0,0.4);
+	-webkit-transition:all 1s ease;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.imgs:hover .shadow{
+	height: 40px;
+}
+
+.images{
+	width: 100%;
+}
+
+.fonts{
+	color: white;
+	font-size: 40px !important;
+	line-height: 40px;
+}
+
+.set{
+	text-align: center;
+	display: block;
+	width: 50%;
+	height: 40px;
+	float: left;
+	z-index: 1;
+	line-height: 40px;
+}
+
+.delete{
+	text-align: center;
+	float: right;
+	display: block;
+	width: 50%;
+	height: 40px;
+	line-height: 40px;
+	z-index: 1;
+}
+
+.set:hover{
+	background: rgba(3, 255, 116, 0.4)
+}
+
+.delete:hover{
+	background: rgba(255,0,0,0.7);
+}
+
+.menu_li{
+	display: inline-block;
+	width: 150px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: black;
+}
+
+.menu_li a{
+	text-decoration: none;
+	color: black;
+}
+
+.menu_li a:hover{
+	text-decoration: none;
+}
