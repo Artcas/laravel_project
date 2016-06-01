@@ -12,7 +12,7 @@
 				</form>
 			</li>
 			<li>
-				<a href="/login">Home</a>
+				<a href="/">Home</a>
 			</li>
 			<li>
 				<a href="/setings">Setings</a>

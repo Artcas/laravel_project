@@ -9,6 +9,15 @@ use App\Models\Post;
 
 class PostsController extends Controller
 {
+
+    public function addPosts(Request $request, Post $post)
+    {
+       $success =  $post->create($request->all());
+       if($success){
+            return redirect('/login');
+       }
+    }
+    
     /**
      * Display a listing of the resource.
      *

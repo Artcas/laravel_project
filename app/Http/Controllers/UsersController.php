@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
+use App\Contracts\UserServiceInterface;
 use App\Http\Requests;
 use App\User;
 use App\Models\Post;
@@ -25,6 +26,10 @@ class UsersController extends Controller
      */
     public function index()
     {
+        if(Auth::check()) {
+            $posts = $this->auth->user()->posts->reverse();
+            return view('personal_page', ['user' => $this->auth->user(), 'posts' => $posts]);
+        }
         return view('home_page');
     }
 
@@ -47,78 +52,21 @@ class UsersController extends Controller
         return redirect('/');
     }
 
-    public function postLogin(Request $request)
+    public function postLogin(Request $request, UserServiceInterface $userService)
     {
-     	$username = $request->input('username');
-     	$password = $request->input('password');
-     	 if (Auth::attempt(['username' => $username, 'password' => $password])) {
-            $posts = $this->auth->user()->posts->reverse();
-            return view('personal_page', ['user' => $this->auth->user(), 'posts' => $posts]);
-        }
-         dd('Error');
-    }
-
-    public function addPosts(Request $request, Post $post)
-    {
-       $success =  $post->create($request->all());
-       if($success){
-            return redirect('/login');
+       if($userService->loginUser($request->all())){
+            return redirect('/');
        }
+       return redirect()->back()->withErrors(['massage' => 'wrong username or password']);
     }
 
-    public function image()
-    {
-          if(Auth::check()){
-            $image = $this->auth->user()->images;
-            return view('users_image', ['images' => $image]);
-        }
-    }
-
-    public function image_add(Request $request, Image $image){
-        $img = $this->getImagesName($request->file());
-        $inputs = $request->all();
-        $inputs['images'] = $img[0]['images'];
-        $inputs['user_id'] = Auth::user()->id;
-        $success =  $image->create($inputs);
-        if($success){
-            return redirect('/image');
-        }
-        else{
-            dd('Oops somthing goes wrong');
-        }
-    }
-
-    public function setHomeImage(Request $request,Image $image, User $User){
-        $ids = $request->ids;
-        $images = $image->where('id',$ids)->first();
-        $userId = $images->user_id;
-        $imgLink = $images->images;
-        $result = $User->where('id', $userId)->update(['home_img' => $imgLink]);
-        if($result){
-            echo "1";
-        }
-        else{
-            echo "0";
-        }
-    }
-
-    public function deleteImage(Request $request,Image $image){
-        $ids = $request->ids;
-        $name = $request->names;
-        $image->where('id',$ids)->delete();
-        if($image){
-            File::delete(public_path().'/images/'.$name);
-            echo "1";
-        }
-        else{
-            echo "0";
-        }
-    }
-
-
+    
     public function setings(Request $request,User $User){
-        $user = $this->auth->user();
-        return view('setings',['data' => $user]);
+        if(Auth::check()){
+            $user = $this->auth->user();
+            return view('setings',['data' => $user]);
+        }
+         return redirect('/');
     }
 
     /**
@@ -137,31 +85,14 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request ,User $User)
+    public function store(Request $request , UserServiceInterface $userService)
     {
-        $password = $request->get('password');
-        $repassword = $request->get('repassword');
-        if($password == $repassword){
-            $img = $this->getImagesNames($request->file());
-        	$inputs = $request->all();
-        	$inputs['password'] = bcrypt($inputs['password']);
-            if(!isset($inputs['home_img'])){
-                unset($inputs['home_img']);
-            }
-            else{
-                $inputs['home_img'] = $img[0]['home_img'];
-            }
-        	$password = $request->input('password');
-        	$result = $User->create($inputs);
-            if($result != null){
-                return view('login_page',['name' => 'Registration complate please use login form']);
-            }
-            else{
-                return view('login_page');
-            }
-        }
-              
+        if($userService->UserRegistration($request->all(),$request->file())){
+            return view('login_page',['name' => 'Registration complate please use login form']); 
+        } 
+        return redirect()->back()->withErrors(['massage' => 'Somthing Goes Wrong']);
     }
+              
 
     /**
      * Display the specified resource.
@@ -193,22 +124,16 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id,User $User)
+    public function update(Request $request, $id,UserServiceInterface $userService)
     {
-        $password = $request->get('password');
-        $repassword = $request->get('repassword');
-        if($password == $repassword){
-            $inputs = $request->all();
-            unset($inputs['_method']);
-            unset($inputs['_token']);
-            $result =  $User->where('id', $id)->update($inputs);
-            if($result){
-                return redirect('/setings');
-            }
+         if($userService->updateInformation($request->all(), $id)){
+            return redirect('/setings');
         }
+            
+    }
 
         
-    }
+   
 
     /**
      * Remove the specified resource from storage.
@@ -221,32 +146,7 @@ class UsersController extends Controller
         //
     }
 
-    public function getImagesNames($files)
-    {
-        $file_names = [];
-        if($files) {
-            foreach ($files as $file) {
-                $filename = str_random(20).".".$file->getClientOriginalExtension();
-                $filenames[]['home_img'] = $filename;
-                $file->move(public_path().'/images', $filename);
-            }
-            return $filenames;
-        }
-        return '';
-    }
+   
 
-    public function getImagesName($files)
-    {
-        $file_names = [];
-        if($files) {
-            foreach ($files as $file) {
-
-                $filename = str_random(20).".".$file->getClientOriginalExtension();
-                $filenames[]['images'] = $filename;
-                $file->move(public_path().'/images', $filename);
-            }
-            return $filenames;
-        }
-        return '';
-    }
+   
  }

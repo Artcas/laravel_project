@@ -15,7 +15,7 @@
   <div class="header">
     <ul>
       <li class="menu_li">
-        <a href="/registraton">Registration</a>
+        <a href="/registration">Registration</a>
       </li>
       <li class="menu_li">
          <a href="/login">login</a>
