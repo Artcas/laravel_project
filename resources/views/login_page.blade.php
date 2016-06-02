@@ -5,7 +5,13 @@
 
 
 @section('content')
+@if ($errors->has())
+	@foreach($errors->all() as $error)
+		<h2>{{$error}}</h2>
+	@endforeach
+@endif
 	<h2>{{ isset($name) ? $name : ''}}</h2>
+	<h2>{{ isset($massage) ? $massage : ''}}</h2>
    <div class="row">
    		<div class="col-lg-12">
 	   		<div class="container">

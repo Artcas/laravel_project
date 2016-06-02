@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Http\Requests\StoreRegistrationRequest;
 use Illuminate\Contracts\Auth\Guard;
+use App\Contracts\UserImagesServiceInterface;
 use App\Models\Image;
+use App\User;
 use Auth;
 use File;
 
@@ -26,27 +29,17 @@ class ImagesController extends Controller
         return redirect('/');
     }
 
-    public function image_add(Request $request, Image $image){
-        $img = $this->getImagesName($request->file());
-        $inputs = $request->all();
-        $inputs['images'] = $img[0]['images'];
-        $inputs['user_id'] = Auth::user()->id;
-        $success =  $image->create($inputs);
-        if($success){
-            return redirect('/image');
+    public function image_add(Request $request,UserImagesServiceInterface $userimagesService){
+        if($userimagesService->addProfileImage($request->file(), $request->all())){
+            return redirect('/image');      
         }
         else{
             dd('Oops somthing goes wrong');
         }
     }
 
-    public function setHomeImage(Request $request,Image $image, User $User){
-        $ids = $request->ids;
-        $images = $image->where('id',$ids)->first();
-        $userId = $images->user_id;
-        $imgLink = $images->images;
-        $result = $User->where('id', $userId)->update(['home_img' => $imgLink]);
-        if($result){
+    public function setHomeImage(Request $request,Image $image, User $User, UserImagesServiceInterface $userimagesService){
+        if($userimagesService->setHomeImage($request->names)){
             echo "1";
         }
         else{
@@ -54,31 +47,15 @@ class ImagesController extends Controller
         }
     }
 
-    public function deleteImage(Request $request,Image $image){
-        $ids = $request->ids;
-        $name = $request->names;
-        $image->where('id',$ids)->delete();
-        if($image){
-            File::delete(public_path().'/images/'.$name);
+    public function deleteImage(Request $request,Image $image,UserImagesServiceInterface $userimagesService){
+        if($userimagesService->deleteImages($request->ids, $request->names)){
             echo "1";
         }
+        
         else{
             echo "0";
         }
     }
 
-    public function getImagesName($files)
-    {
-        $file_names = [];
-        if($files) {
-            foreach ($files as $file) {
-
-                $filename = str_random(20).".".$file->getClientOriginalExtension();
-                $filenames[]['images'] = $filename;
-                $file->move(public_path().'/images', $filename);
-            }
-            return $filenames;
-        }
-        return '';
-    }
+   
 }

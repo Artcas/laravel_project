@@ -26,5 +26,7 @@ Route::post('/addPosts', 'PostsController@addPosts');
 Route::resource('/users', 'UsersController');
 Route::resource('/users/setings', 'UsersController');
 Route::resource('/posts', 'PostsController');
+Route::post('/user-search', 'UsersController@userSearch');
+
 
 

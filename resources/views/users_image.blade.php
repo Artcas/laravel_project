@@ -37,9 +37,9 @@
 		</div>
 		@foreach ($images as  $image)
 			<div class="imgs">
-				<img src="/images/{!! $image->images !!}" class="images img-thumbnail">
+				<img src="/assets/images1/{!! $image->images !!}" class="images img-thumbnail">
 				<div class="shadow">
-					<span class="set" id="{!! $image->id !!}">
+					<span class="set" id="{!! $image->id !!}" name="{!! $image->images !!}">
 						<i class="fa fa-check-square fonts" aria-hidden="true"></i>
 					</span>
 					<span class="delete" id="{!! $image->id !!}" name="{!! $image->images !!}">

@@ -21,6 +21,11 @@ interface UserServiceInterface {
 
 
    public function getImagesNames($files);
+
+
+   // Search users
+
+   public function searchingUsers($inputs,$id);
 }
 
 ?>

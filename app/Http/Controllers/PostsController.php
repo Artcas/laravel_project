@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\StoreRegistrationRequest;
 use App\Models\Post;
+use App\Contracts\UserPostsServiceInterface;
 
 class PostsController extends Controller
 {
 
-    public function addPosts(Request $request, Post $post)
+    public function addPosts(Request $request, Post $post,UserPostsServiceInterface $UserPostsServiceInterfaces)
     {
-       $success =  $post->create($request->all());
-       if($success){
+        if($UserPostsServiceInterfaces->addPosts($request->all())){
             return redirect('/login');
-       }
+        }
+        return false;
     }
     
     /**
@@ -25,7 +27,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        dd($id);
+       // dd($id);
     }
 
     /**
@@ -35,7 +37,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-       dd($id);
+       //dd($id);
     }
 
     /**
@@ -78,11 +80,12 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, Post $post)
+    public function update(Request $request, $id, Post $post, UserPostsServiceInterface $UserPostsServiceInterfaces)
     {
-         $new_text = $request->edit_text;
-         $post->where('id', $id)->update(['posts' => $new_text]);
+        if($UserPostsServiceInterfaces->editPosts($request->edit_text,$id)){
          return redirect('/login');
+        }
+
     }
 
     /**
@@ -91,9 +94,10 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, Post $post)
+    public function destroy($id, Post $post,UserPostsServiceInterface $UserPostsServiceInterfaces)
     {
-        $post->where('id',$id)->delete();
-        return redirect('/login');
+        if($UserPostsServiceInterfaces->deletePosts($id)){
+            return redirect('/login');
+        }
     }
 }

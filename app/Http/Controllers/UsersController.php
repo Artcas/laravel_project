@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use App\Contracts\UserServiceInterface;
 use App\Http\Requests;
+use App\Http\Requests\StoreRegistrationRequest;
 use App\User;
 use App\Models\Post;
 use App\Models\Image;
@@ -85,8 +86,9 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , UserServiceInterface $userService)
+    public function store(StoreRegistrationRequest $request , UserServiceInterface $userService)
     {
+        
         if($userService->UserRegistration($request->all(),$request->file())){
             return view('login_page',['name' => 'Registration complate please use login form']); 
         } 
@@ -147,6 +149,13 @@ class UsersController extends Controller
     }
 
    
+    // Searching users 
 
+    public function userSearch(Request $request,UserServiceInterface $userService)
+    {
+        if(null !== $user = $userService->searchingUsers($request->get('name'),$request->get('id'))){
+            return json_decode($user, true);
+        }
+    }
    
  }

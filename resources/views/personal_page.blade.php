@@ -21,13 +21,26 @@
 			</li>
 	    </ul>
 	  </li>
+	  <li role="presentation" class="search_area">
+	  	<input type="text" class="search_type" id='{!! $user->id!!}'>
+		<button type="button" class="btn btn-info search_button">
+			<i class="fa fa-search" aria-hidden="true"></i>
+		</button>
+		<div class="search_data">
+		</div>
+	  </li>
 	</ul>
+
+	
+		
+	
+		
 @endsection
 @section('content')
 	<div class="container cont_area">
 		<div class="row">
 			<div class="col-lg-12 content_posts">
-				<img src="/images/{!! $user->home_img !!}"  class="img-thumbnail">
+				<img src="/assets/images1/{!! $user->home_img !!}"  class="img-thumbnail">
 				<span class="name_area">{{$user->name}}</span>
 				<span class="name_area">{{$user->lastname}}</span>
 				<h2>

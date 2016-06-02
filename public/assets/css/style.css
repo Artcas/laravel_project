@@ -175,3 +175,45 @@ h2{
 .menu_li a:hover{
 	text-decoration: none;
 }
+
+.search_area{
+	position: relative;
+	margin-left: 50px;
+	margin-top: 5px;
+	float: right;
+}
+
+.search_button{
+	background: black !important;
+	outline: none;
+	border:none !important;
+}
+
+.search_data{
+	position: absolute;;
+	top: 30px
+	left20px;
+	width: 300px;
+	z-index: 999;
+	background:gray; 
+}
+
+.image_area_search{
+	width: 100%;
+	padding: 10px;
+	margin-top: 10px;
+	text-align: center;
+	overflow: hidden;
+}
+
+
+.small_images{
+	width: 100px;
+	float: left;
+}
+
+.name{
+	color: white;
+	font-size: 20px;
+
+}

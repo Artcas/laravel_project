@@ -58,6 +58,12 @@ class UserService implements UserServiceInterface {
        return false;    
     }
 
+
+    public function searchingUsers($name,$id){
+         return  $this->user->where('name','LIKE' ,'%'.$name.'%')->where('id','!=',$id)->get();
+         
+    }
+
      public function getImagesNames($files)
     {
         $file_names = [];
@@ -65,7 +71,7 @@ class UserService implements UserServiceInterface {
             foreach ($files as $file) {
                 $filename = str_random(20).".".$file->getClientOriginalExtension();
                 $file_names[]['home_img'] = $filename;
-                $file->move(public_path().'/images', $filename);
+                $file->move(public_path().'/assets/images1', $filename);
             }
             return $file_names;
         }

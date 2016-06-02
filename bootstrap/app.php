@@ -31,6 +31,16 @@ $app->singleton(
 );
 
 $app->singleton(
+   App\Contracts\UserImagesServiceInterface::class, 
+   App\Services\UserImagesService::class
+);
+
+$app->singleton(
+   App\Contracts\UserPostsServiceInterface::class, 
+   App\Services\UserPostsService::class
+);
+
+$app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
     App\Http\Kernel::class
 );
