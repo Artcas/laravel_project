@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddVotesToUsersTable extends Migration
+class DropVotesToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,7 @@ class AddVotesToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->after('id');
-            $table->string('repassword')->after('password');
+            $table->dropColumn('request');
         });
     }
 
@@ -26,8 +25,7 @@ class AddVotesToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('username');
-            $table->dropColumn('repassword');
+             $table->integer('request')->after('repassword');
         });
     }
 }

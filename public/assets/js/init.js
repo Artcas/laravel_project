@@ -54,7 +54,6 @@ $(document).ready(function(){
 		if(searchText == ''){
 			return false;
 		}
-		var uri = location.pathname;
 		$('.search_data').html('');
 		$.ajax({
 			dataType:'JSON',
@@ -66,14 +65,33 @@ $(document).ready(function(){
 					var name = newresult.name;
 					var lastname = newresult.lastname;
 					var homeImg = newresult.home_img;
+					var frendId = newresult.id
 					if(homeImg == ''){
 						homeImg = 'default.jpg'
 					}
-					$('.search_data').append("<a href='#'><div class='image_area_search'><img class='small_images img-thumbnail' src='/assets/images1/"+homeImg+"'><span class='name'>"+name+"</span><span class='lastname'>"+lastname+"</span></div></a>")
+					$('.search_data').append("<a href='/guest_page/"+frendId+"'><div class='image_area_search'><img class='small_images img-thumbnail' src='/assets/images1/"+homeImg+"'><span class='name'>"+name+"</span><span class='lastname'>"+lastname+"</span></div></a>")
 				})
 			}
 		})
 	})
 
+	// Adding Frend List 
 
+
+	$('.frendAdd').click(function(){
+		var userId = $('.frendAdd').attr('id');
+		
+		$.ajax({
+			type:'post',
+			url:'/guest_page/',
+			data:{id:userId},
+			success:function(result){
+				if(result.status === 'success'){
+					$('.frendAdd').addClass('disabled');
+					$('.frendAdd').text('sended');
+				}
+
+			}
+		})
+	})
 })

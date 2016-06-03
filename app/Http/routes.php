@@ -17,6 +17,7 @@ Route::get('registration', 'UsersController@registr');
 Route::get('login', 'UsersController@getLogin');
 Route::get('/image', 'ImagesController@image');
 Route::get('/setings', 'UsersController@setings');
+Route::post('/user-search', 'UsersController@userSearch');
 Route::post('/image_add', 'ImagesController@image_add');
 Route::post('/setHomeImage', 'ImagesController@setHomeImage');
 Route::post('/deleteImage', 'ImagesController@deleteImage');
@@ -26,7 +27,7 @@ Route::post('/addPosts', 'PostsController@addPosts');
 Route::resource('/users', 'UsersController');
 Route::resource('/users/setings', 'UsersController');
 Route::resource('/posts', 'PostsController');
-Route::post('/user-search', 'UsersController@userSearch');
+Route::resource('/guest_page', 'GuestsPageController');
 
 
 

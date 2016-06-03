@@ -3,23 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Contracts\GuestsPageServiceInterface;
+use App\Models\Image;
+use App\User;
 use App\Http\Requests;
-use App\Http\Requests\StoreRegistrationRequest;
-use App\Models\Post;
-use App\Contracts\UserPostsServiceInterface;
+use Auth;
+use App\Models\Friend_request;
 
-class PostsController extends Controller
+class GuestsPageController extends Controller
 {
-
-    public function addPosts(Request $request, Post $post,UserPostsServiceInterface $UserPostsServiceInterfaces)
-    {
-        if($UserPostsServiceInterfaces->addPosts($request->all())){
-            return redirect('/login');
-        }
-        return false;
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +19,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-      
+        //
     }
 
     /**
@@ -37,7 +29,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-     
+        //
     }
 
     /**
@@ -46,9 +38,12 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,GuestsPageServiceInterface $guestsPageServiceInterface)
     {
-      
+        if($guestsPageServiceInterface->addingToFrend($request->id)){
+        	return ['status' => 'success'];
+        }
+        return ['status' => 'error'];
     }
 
     /**
@@ -57,9 +52,13 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,GuestsPageServiceInterface $guestsPageServiceInterface)
     {
-       
+        if(null !== $user = $guestsPageServiceInterface->GetSearchUserById($id)){
+
+        	return view('/guests_page', ['user_data' => $user, 'user' => Auth::user()]);
+        }
+        return redirect()->back()->withErrors(['massage' => 'Couldnt find that user']);
     }
 
     /**
@@ -80,12 +79,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, Post $post, UserPostsServiceInterface $UserPostsServiceInterfaces)
+    public function update(Request $request, $id , GuestsPageServiceInterface $guestsPageServiceInterface,Friend_request $friend_request)
     {
-        if($UserPostsServiceInterfaces->editPosts($request->edit_text,$id)){
-         return redirect('/');
-        }
-
+        
     }
 
     /**
@@ -94,10 +90,8 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, Post $post,UserPostsServiceInterface $UserPostsServiceInterfaces)
+    public function destroy($id)
     {
-        if($UserPostsServiceInterfaces->deletePosts($id)){
-            return redirect('/');
-        }
+        //
     }
 }

@@ -41,6 +41,11 @@ $app->singleton(
 );
 
 $app->singleton(
+   App\Contracts\GuestsPageServiceInterface::class, 
+   App\Services\GuestsPageService::class
+);
+
+$app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
     App\Http\Kernel::class
 );

@@ -3,27 +3,46 @@ namespace App\Contracts;
 
 interface UserServiceInterface {
 
-	// Login User with post 
+
+  /**
+     * Login User with post 
+     * @param  array  $inputs
+  */
 
    public function loginUser($inputs);
   
 
-  // User Registration
+    /**
+     * User Registration
+     * @param  array  $inputs
+     * @param  array  $files
+     */
+
 
    public function UserRegistration($inputs, $files);
 
-   // Update user information
+
+    /**
+     * Update user information
+     * @param  array  $inputs
+     * @param  int  $id
+     */
 
    public function updateInformation($inputs,$id);
 
-   
-   // Images Work
+     /**
+     * Images Work
+     * @param  array  $filse
+     */
 
 
    public function getImagesNames($files);
 
-
-   // Search users
+   /**
+     * Search users
+     * @param  array  $inputs
+     * @param  int  $id
+     */
 
    public function searchingUsers($inputs,$id);
 }

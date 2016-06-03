@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/assets/js/jquery.js"></script>
     <script type="text/javascript" src="/assets/js/bootstrap.js"></script>
     <script type="text/javascript" src="/assets/js/init.js"></script>
+    <script type="text/javascript" src="/assets/js/angular.min.js"></script>
   </head>
   <body>
 @section('header')

@@ -30,11 +30,6 @@
 		</div>
 	  </li>
 	</ul>
-
-	
-		
-	
-		
 @endsection
 @section('content')
 	<div class="container cont_area">
